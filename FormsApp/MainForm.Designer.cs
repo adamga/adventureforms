@@ -11,7 +11,7 @@ namespace FormsApp
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button searchButton;
-    //    private System.Windows.Forms.BindingSource bindingSource;
+        private System.Windows.Forms.ComboBox viewComboBox; // P292a
 
         protected override void Dispose(bool disposing)
         {
@@ -33,6 +33,7 @@ namespace FormsApp
             this.cancelButton = new System.Windows.Forms.Button();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
+            this.viewComboBox = new System.Windows.Forms.ComboBox(); // P292a
             this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
@@ -113,11 +114,20 @@ namespace FormsApp
             this.searchButton.UseVisualStyleBackColor = true;
             this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
+            // viewComboBox
+            // 
+            this.viewComboBox.Location = new System.Drawing.Point(704, 368); // P049d
+            this.viewComboBox.Name = "viewComboBox";
+            this.viewComboBox.Size = new System.Drawing.Size(121, 21);
+            this.viewComboBox.TabIndex = 8;
+            this.viewComboBox.SelectedIndexChanged += new System.EventHandler(this.viewComboBox_SelectedIndexChanged); // P6e61
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.viewComboBox); // P292a
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.searchTextBox);
             this.Controls.Add(this.cancelButton);

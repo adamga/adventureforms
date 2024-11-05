@@ -86,5 +86,11 @@ namespace FormsApp
 
             return true;
         }
+
+        public DataTable GetViews()
+        {
+            string query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS";
+            return GetData(query);
+        }
     }
 }

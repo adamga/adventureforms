@@ -17,6 +17,7 @@ namespace FormsApp
             InitializeDataGridView();
             InitializeBindingSource();
             LoadData();
+            LoadViews(); // P8289
         }
 
         private void InitializeDataGridView()
@@ -45,6 +46,23 @@ namespace FormsApp
                 dataTable = new DataTable();
                 dataAdapter.Fill(dataTable);
                 bindingSource.DataSource = dataTable;
+            }
+        }
+
+        private void LoadViews() // P80fc
+        {
+            DataAccess dataAccess = new DataAccess();
+            DataTable viewsTable = dataAccess.GetData("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS");
+
+            viewComboBox.Items.Clear();
+            foreach (DataRow row in viewsTable.Rows)
+            {
+                viewComboBox.Items.Add(row["TABLE_NAME"].ToString());
+            }
+
+            if (viewComboBox.Items.Count > 0)
+            {
+                viewComboBox.SelectedIndex = 0;
             }
         }
 
@@ -87,6 +105,17 @@ namespace FormsApp
         {
             string filter = searchTextBox.Text;
             bindingSource.Filter = $"LastName LIKE '%{filter}%'"; // Example filter
+        }
+
+        private void viewComboBox_SelectedIndexChanged(object sender, EventArgs e) // P493c
+        {
+            string selectedView = viewComboBox.SelectedItem.ToString();
+            string query = $"SELECT * FROM {selectedView}";
+
+            DataAccess dataAccess = new DataAccess();
+            DataTable dataTable = dataAccess.GetData(query);
+
+            bindingSource.DataSource = dataTable;
         }
     }
 }
