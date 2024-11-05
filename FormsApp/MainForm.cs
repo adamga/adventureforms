@@ -7,17 +7,17 @@ namespace FormsApp
 {
     public partial class MainForm : Form
     {
-        private BindingSource bindingSource;
         private SqlDataAdapter dataAdapter;
         private DataTable dataTable;
+        private BindingSource bindingSource;
 
         public MainForm()
         {
             InitializeComponent();
-            InitializeDataGridView();
             InitializeBindingSource();
-            LoadData();
-            LoadViews(); // P8289
+            InitializeDataGridView();
+            LoadViews();
+            viewComboBox.SelectedIndexChanged += viewComboBox_SelectedIndexChanged;
         }
 
         private void InitializeDataGridView()
@@ -33,10 +33,9 @@ namespace FormsApp
             bindingSource = new BindingSource();
         }
 
-        private void LoadData()
+        private void LoadData(string query)
         {
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["AdventureWorks2014"].ConnectionString;
-            string query = "SELECT * FROM HumanResources.vEmployee"; // Example view
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -49,20 +48,35 @@ namespace FormsApp
             }
         }
 
-        private void LoadViews() // P80fc
+        private void LoadViews()
         {
             DataAccess dataAccess = new DataAccess();
-            DataTable viewsTable = dataAccess.GetData("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS");
+            DataTable viewsTable = dataAccess.GetData("SELECT TABLE_SCHEMA + '.' + TABLE_NAME AS FullViewName FROM INFORMATION_SCHEMA.VIEWS");
 
             viewComboBox.Items.Clear();
             foreach (DataRow row in viewsTable.Rows)
             {
-                viewComboBox.Items.Add(row["TABLE_NAME"].ToString());
+                viewComboBox.Items.Add(row["FullViewName"].ToString());
             }
 
             if (viewComboBox.Items.Count > 0)
             {
                 viewComboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void SaveData()
+        {
+            try
+            {
+                bindingSource.EndEdit();
+                dataAdapter.Update((DataTable)bindingSource.DataSource);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can replace this with your logging mechanism)
+                Console.WriteLine($"Error saving data: {ex.Message}");
+                throw;
             }
         }
 
@@ -93,7 +107,8 @@ namespace FormsApp
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            dataAdapter.Update(dataTable);
+            dataTable.AcceptChanges();
+            SaveData();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -107,15 +122,10 @@ namespace FormsApp
             bindingSource.Filter = $"LastName LIKE '%{filter}%'"; // Example filter
         }
 
-        private void viewComboBox_SelectedIndexChanged(object sender, EventArgs e) // P493c
+        private void viewComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedView = viewComboBox.SelectedItem.ToString();
-            string query = $"SELECT * FROM {selectedView}";
-
-            DataAccess dataAccess = new DataAccess();
-            DataTable dataTable = dataAccess.GetData(query);
-
-            bindingSource.DataSource = dataTable;
+            LoadData($"SELECT * FROM {selectedView}");
         }
     }
 }

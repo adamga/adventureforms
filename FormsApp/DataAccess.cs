@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace FormsApp
 {
@@ -15,22 +16,45 @@ namespace FormsApp
 
         public DataTable GetData(string query)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (!query.Contains("."))
             {
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
-                DataTable dataTable = new DataTable();
-                dataAdapter.Fill(dataTable);
-                return dataTable;
+                //throw new ArgumentException("Query must include the schema name.");
+            }
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                    DataTable dataTable = new DataTable();
+                    dataAdapter.Fill(dataTable);
+                    return dataTable;
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Log the exception (you can replace this with your logging mechanism)
+                Console.WriteLine($"SQL Error: {ex.Message}");
+                throw;
             }
         }
 
         public void UpdateData(string query, DataTable dataTable)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
-                SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-                dataAdapter.Update(dataTable);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
+                    SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+                    dataAdapter.Update(dataTable);
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Log the exception (you can replace this with your logging mechanism)
+                Console.WriteLine($"SQL Error: {ex.Message}");
+                throw;
             }
         }
 
@@ -87,10 +111,32 @@ namespace FormsApp
             return true;
         }
 
-        public DataTable GetViews()
+        public List<string> GetViews()
         {
-            string query = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.VIEWS";
-            return GetData(query);
+            List<string> views = new List<string>();
+            string query = "SELECT TABLE_SCHEMA + '.' + TABLE_NAME AS FullViewName FROM INFORMATION_SCHEMA.VIEWS";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        views.Add(reader["FullViewName"].ToString());
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Log the exception (you can replace this with your logging mechanism)
+                Console.WriteLine($"SQL Error: {ex.Message}");
+                throw;
+            }
+
+            return views;
         }
     }
 }
