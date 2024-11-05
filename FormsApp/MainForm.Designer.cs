@@ -11,7 +11,7 @@ namespace FormsApp
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button searchButton;
-        private System.Windows.Forms.BindingSource bindingSource;
+    //    private System.Windows.Forms.BindingSource bindingSource;
 
         protected override void Dispose(bool disposing)
         {
