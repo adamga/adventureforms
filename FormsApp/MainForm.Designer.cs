@@ -39,17 +39,30 @@ namespace FormsApp
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             this.SuspendLayout();
             // 
+            // viewComboBox
+            // 
+            this.viewComboBox.Location = new System.Drawing.Point(12, 12); // Adjust the location as needed
+            this.viewComboBox.Size = new System.Drawing.Size(200, 21); // Adjust the size as needed
+            this.viewComboBox.TabIndex = 8;
+            this.viewComboBox.SelectedIndexChanged += new System.EventHandler(this.viewComboBox_SelectedIndexChanged);
+           //     this.viewComboBox.Location = new System.Drawing.Point(704, 368); // P049d
+            this.viewComboBox.Name = "viewComboBox";
+           // this.viewComboBox.Size = new System.Drawing.Size(121, 21);
+           // this.viewComboBox.TabIndex = 8;
+           // this.viewComboBox.SelectedIndexChanged += new System.EventHandler(this.viewComboBox_SelectedIndexChanged); // P6e61
+
+    
+            // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(776, 350);
+            this.dataGridView.Location = new System.Drawing.Point(12, 45); // Adjust the location to be below the viewComboBox
+            this.dataGridView.Size = new System.Drawing.Size(760, 400); // Adjust the size as needed
             this.dataGridView.TabIndex = 0;
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(12, 368);
+            this.addButton.Location = new System.Drawing.Point(12, 450);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 1;
@@ -59,7 +72,7 @@ namespace FormsApp
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(93, 368);
+            this.editButton.Location = new System.Drawing.Point(93, 450);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(75, 23);
             this.editButton.TabIndex = 2;
@@ -69,7 +82,7 @@ namespace FormsApp
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(174, 368);
+            this.deleteButton.Location = new System.Drawing.Point(174, 450);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(75, 23);
             this.deleteButton.TabIndex = 3;
@@ -79,7 +92,7 @@ namespace FormsApp
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(255, 368);
+            this.saveButton.Location = new System.Drawing.Point(255, 450);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 4;
@@ -89,7 +102,7 @@ namespace FormsApp
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(336, 368);
+            this.cancelButton.Location = new System.Drawing.Point(336, 450);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 5;
@@ -99,14 +112,14 @@ namespace FormsApp
             // 
             // searchTextBox
             // 
-            this.searchTextBox.Location = new System.Drawing.Point(417, 370);
+            this.searchTextBox.Location = new System.Drawing.Point(417, 450);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(200, 20);
             this.searchTextBox.TabIndex = 6;
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(623, 368);
+            this.searchButton.Location = new System.Drawing.Point(623, 450);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(75, 23);
             this.searchButton.TabIndex = 7;
@@ -116,17 +129,12 @@ namespace FormsApp
             // 
             // viewComboBox
             // 
-            this.viewComboBox.Location = new System.Drawing.Point(704, 368); // P049d
-            this.viewComboBox.Name = "viewComboBox";
-            this.viewComboBox.Size = new System.Drawing.Size(121, 21);
-            this.viewComboBox.TabIndex = 8;
-            this.viewComboBox.SelectedIndexChanged += new System.EventHandler(this.viewComboBox_SelectedIndexChanged); // P6e61
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.viewComboBox); // P292a
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.searchTextBox);
